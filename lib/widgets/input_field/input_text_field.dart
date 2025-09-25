@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class InputTextField extends StatefulWidget {
   final String hintText;
-  final bool? isHintText; // if true => show hintText
+  final bool? isHintText;
   final TextInputType? textInputType;
   final TextEditingController controller;
   final String? Function(String?)? validator;
@@ -38,8 +38,8 @@ class _InputTextFieldState extends State<InputTextField> {
           controller: widget.controller,
           validator: widget.validator,
           keyboardType: widget.textInputType,
-
           decoration: InputDecoration(
+            suffixIcon: widget.suffixIcon,
             hintText: widget.isHintText == true ? widget.hintText : null,
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10.r),

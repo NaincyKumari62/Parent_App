@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
@@ -11,7 +10,9 @@ import '../../widgets/text/big_text.dart';
 import '../../widgets/text/medium_text.dart';
 
 class OnboardingScreen2 extends StatefulWidget {
-  const OnboardingScreen2({super.key});
+  final int kids;
+   int currentStu;
+ OnboardingScreen2({super.key, required this.kids, required this.currentStu});
 
   @override
   _OnboardingScreen2State createState() => _OnboardingScreen2State();
@@ -35,8 +36,8 @@ class _OnboardingScreen2State extends State<OnboardingScreen2> {
   final branchNameController = TextEditingController();
   final ifscController = TextEditingController();
 
-  String? selectedAge ;
-  String selectedGender = 'Select ';
+  String? selectedAge;
+  String? selectedGender;
 
   Future<void> getImage(Function(File) onImagePicked) async {
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
@@ -44,37 +45,41 @@ class _OnboardingScreen2State extends State<OnboardingScreen2> {
       onImagePicked(File(pickedFile.path));
     }
   }
+
   List<String> ageList = List.generate(43, (index) => (index + 18).toString());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       appBar: AppBar(
         backgroundColor: AppColor.white,
-        title: Text("Onboarding"),
+        title: BigText(text: "Onboarding",fontSize: 22.sp,),
         leadingWidth: 35.w,
         leading: Padding(
-          padding: EdgeInsets.only(left: 20),
-          child: Icon(Icons.arrow_back),
+          padding: const EdgeInsets.only(left: 10),
+          child: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () => Navigator.pop(context),
+          ),
         ),
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(16.h),
+        padding: EdgeInsets.symmetric(horizontal:  18.w,vertical: 10.h),
         child: Form(
           key: _formKey,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                '1st Student Details :',
+                '${widget.currentStu}st Student Details :',
                 style: TextStyle(
-                  fontSize: 18.sp ,
+                  fontSize: 18.sp,
                   fontWeight: FontWeight.w600,
                   decoration: TextDecoration.underline,
                 ),
               ),
-
-              SizedBox(height: 5.h),
+              SizedBox(height: 10.h),
 
               // Upload Photo
               MediumText(
@@ -93,6 +98,7 @@ class _OnboardingScreen2State extends State<OnboardingScreen2> {
               ),
               SizedBox(height: 16.h),
 
+              // Name
               BigText(text: 'Name*', fontSize: 16.sp, fontWeight: FontWeight.w500),
               InputTextField(
                 isHintText: true,
@@ -105,86 +111,137 @@ class _OnboardingScreen2State extends State<OnboardingScreen2> {
                   return null;
                 },
               ),
+              SizedBox(height: 16.h),
+
+              // Age + Gender
               Row(
                 children: [
-              DropdownButtonFormField<String>(
-              decoration: InputDecoration(
-                labelText: 'Age',
-                border: OutlineInputBorder(),
-              ),
-          value: selectedAge,
-          items: ageList.map((age) {
-            return DropdownMenuItem<String>(
-              value: age,
-              child: Text(age),
-            );
-          }).toList(),
-          onChanged: (value) {
-            setState(() {
-              selectedAge = value;
-            });
-          },
-        ),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        BigText(
+                          text: 'Age',
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        SizedBox(height: 8.h),
+                        DropdownButtonFormField<String>(
+                          decoration: InputDecoration(
+                            hintText: 'Age',
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.r),
+                              borderSide: BorderSide(
+                                color: AppColor.onboardingBorder,
+                                width: 1.w,
+                              ),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.r),
+                              borderSide: BorderSide(
+                                color: AppColor.onboardingBorder,
+                              ),
+                            ),
+                            border: const OutlineInputBorder(),
+                          ),
+                          icon: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: const [
+                              Icon(Icons.keyboard_arrow_up, size: 18),
+                              Icon(Icons.keyboard_arrow_down, size: 18),
+                            ],
+                          ),
+
+                          value: selectedAge,
+                          items: ageList.map((age) {
+                            return DropdownMenuItem<String>(
+                              value: age,
+                              child: Text(age),
+                            );
+                          }).toList(),
+                          onChanged: (value) {
+                            setState(() {
+                              selectedAge = value;
+                            });
+                          },
+                          validator: (value) =>
+                          value == null ? "Please select Age" : null,
+                        ),
+                      ],
+                    ),
+                  )
+                  ,
+
 
                   SizedBox(width: 10.w),
                   Expanded(
-                    child: DropdownButtonFormField<String>(
-                      value: selectedGender,
-                      decoration: InputDecoration(
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.r),
-                          borderSide: BorderSide(
-                            color: AppColor.onboardingBorder,
-                            width: 2.w,
-                          ), // focused border color
-                        ),
-                        disabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(1.r),
-                          borderSide: BorderSide(
-                            color: AppColor.onboardingBorder,
-                            width: 2.w,
-                          ), // focused border color
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.r),
-                          borderSide: BorderSide(
-                            color: AppColor.grey,
-                          ), // 👈 enabled border color
-                        ),
-                        border: OutlineInputBorder(),
-                      ),
-                      items:
-                      [
-                        'Select ',
-                        'Male',
-                        'Female',
-                        'Transgender',
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        BigText(text: 'Gender', fontSize: 16.sp, fontWeight: FontWeight.w500),
 
-                      ].map((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
-                      onChanged: (value) {
-                        setState(() {
-                          selectedGender = value!;
-                        });
-                      },
+                        DropdownButtonFormField<String>(
+                          value: selectedGender,
+                          decoration: InputDecoration(
+                            hintText: 'Select',
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.r),
+                              borderSide:  BorderSide(
+                                color: AppColor.onboardingBorder,
+                                width: 1.w,
+                              ),
+                            ),
+                            disabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(1.r),
+                              borderSide:  BorderSide(
+                                color: AppColor.onboardingBorder,
+                                width: 1.w,
+                              ), // focused border color
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.r),
+                              borderSide: const BorderSide(
+                                color: AppColor.onboardingBorder,
+                              ),
+                            ),
+                            border: const OutlineInputBorder(),
+                          ),
+                          items: [
+                            'Male',
+                            'Female',
+                            'Transgender',
+                          ].map((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                          onChanged: (value) {
+                            setState(() {
+                              selectedGender = value;
+                            });
+                          },
+                          validator: (value) =>
+                          value == null ? "Please select Gender" : null,
+                        ),
+                      ],
                     ),
                   ),
                 ],
               ),
+              SizedBox(height: 16.h),
 
+              // DOB
               BigText(
                 text: 'Date of Birth*',
                 fontSize: 16.sp,
                 fontWeight: FontWeight.w500,
               ),
               InputTextField(
-                controller: nameController,
+                controller: dobController,
+                suffixIcon: Icon(Icons.calendar_month),
                 isHintText: true,
-                textInputType: TextInputType.number,
+                textInputType: TextInputType.datetime,
                 hintText: 'DD/MM/YYYY',
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -193,17 +250,11 @@ class _OnboardingScreen2State extends State<OnboardingScreen2> {
                   return null;
                 },
               ),
-
               SizedBox(height: 16.h),
 
-
-
-
-
-
-              SizedBox(height: 16.h),
+              // Bank Details
               BigText(
-                text: "Bank Account Number",
+                text: "Bank Account Number*",
                 fontSize: 16.sp,
                 fontWeight: FontWeight.w500,
               ),
@@ -218,7 +269,7 @@ class _OnboardingScreen2State extends State<OnboardingScreen2> {
                 },
               ),
               BigText(
-                text: "Bank Account Holder Name",
+                text: "Bank Account Holder Name*",
                 fontSize: 16.sp,
                 fontWeight: FontWeight.w500,
               ),
@@ -233,7 +284,7 @@ class _OnboardingScreen2State extends State<OnboardingScreen2> {
                 },
               ),
               BigText(
-                text: "Bank Name",
+                text: "Bank Name*",
                 fontSize: 16.sp,
                 fontWeight: FontWeight.w500,
               ),
@@ -248,16 +299,16 @@ class _OnboardingScreen2State extends State<OnboardingScreen2> {
                 },
               ),
               BigText(
-                text: "Branch Name",
+                text: "Branch Name*",
                 fontSize: 16.sp,
                 fontWeight: FontWeight.w500,
               ),
               InputTextField(
-                hintText: "Branch Name",
+                hintText: "Branch Name*",
                 controller: branchNameController,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return "PleaseBranch Name";
+                    return "Please Enter Branch Name";
                   }
                   return null;
                 },
@@ -268,7 +319,7 @@ class _OnboardingScreen2State extends State<OnboardingScreen2> {
                 fontWeight: FontWeight.w500,
               ),
               InputTextField(
-                hintText: "IFSC Code",
+                hintText: "IFSC Code*",
                 controller: ifscController,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -282,22 +333,28 @@ class _OnboardingScreen2State extends State<OnboardingScreen2> {
               CustomButton(
                 text: 'Save & Next',
                 onPressed: () {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(builder: (_) => OnboardingScreen2()),
-                  // );
-                  // if(_formKey.currentState!.validate()){
-                  //   Navigator.push(context, MaterialPageRoute(builder: (_)=>OnboardingScreen2()));
-                  // }
+                  if (_formKey.currentState!.validate()) {
+                    //  form valid hua to agla page open hoga
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text("Form Submitted Successfully")),
+                    );
+                    if(widget.currentStu<widget.kids){
+                      Navigator.push(context, MaterialPageRoute(builder: (_)=>OnboardingScreen2(kids: widget.kids, currentStu: widget.currentStu)));
+                    }
+
+                  }
+                  if(widget.currentStu<widget.kids){
+                    int currentStu = widget.currentStu+1;
+                    Navigator.push(context, MaterialPageRoute(builder: (_)=>OnboardingScreen2(kids: widget.kids, currentStu: currentStu)));
+                  }
                 },
                 bgColor: AppColor.black,
               ),
               SizedBox(height: 27.h),
-          ]
+            ],
           ),
-        )
         ),
-      );
-
+      ),
+    );
   }
 }

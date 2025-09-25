@@ -9,14 +9,14 @@ import '../../widgets/text/small_text.dart';
 import 'otp_verification.dart';
 import 'otp_verification2.dart';
 
-class EmailVerify extends StatefulWidget {
-  const EmailVerify({super.key});
+class EmailVerificationScreen extends StatefulWidget {
+  const EmailVerificationScreen({super.key});
 
   @override
-  State<EmailVerify> createState() => _EmailVerifyState();
+  State<EmailVerificationScreen> createState() => _EmailVerificationScreenState();
 }
 
-class _EmailVerifyState extends State<EmailVerify> {
+class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
    TextEditingController emailController=TextEditingController();
    bool isChecked = false;
 

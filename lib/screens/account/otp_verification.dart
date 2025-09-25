@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:parent_app/screens/account/email_verification_screen.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 import '../../res/Colors/color.dart';
@@ -92,7 +93,7 @@ class _OtpVerificationState extends State<OtpVerification> {
             SizedBox(height: 20.h),
 
             CustomButton(text: 'Verify', onPressed: () {
-          //    Navigator.push(context, MaterialPageRoute(builder: (_)=>OnboardingScreen()));
+              Navigator.push(context, MaterialPageRoute(builder: (_)=>EmailVerificationScreen()));
             }, bgColor: _otpController.text.length == 6? Colors.black:Colors.grey,)
           ],
         ),

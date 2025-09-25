@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
@@ -12,6 +11,7 @@ import '../../widgets/input_field/email_text_field.dart';
 import '../../widgets/input_field/input_text_field.dart';
 import '../../widgets/text/big_text.dart';
 import '../../widgets/text/medium_text.dart';
+import 'onboarding_screen2.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -25,13 +25,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   final picker = ImagePicker();
   final _formKey = GlobalKey<FormState>();
 
-
   // Controllers
   final nameController = TextEditingController();
   final mobileController = TextEditingController();
-  final  kidsCountController = TextEditingController();
-  final emailController=TextEditingController();
-
+  final kidsCountController = TextEditingController();
+  final emailController = TextEditingController();
 
   String selectedState = 'Select State';
 
@@ -55,7 +53,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             Navigator.pop(context);
           },
         ),
-
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16.h),
@@ -67,7 +64,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               Text(
                 'Guardian’s Details :',
                 style: TextStyle(
-                  fontSize: 18.sp ,
+                  fontSize: 18.sp,
                   fontWeight: FontWeight.w600,
                   decoration: TextDecoration.underline,
                 ),
@@ -75,7 +72,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
               SizedBox(height: 5.h),
 
-              BigText(text: 'Name*', fontSize: 16.sp, fontWeight: FontWeight.w500),
+              BigText(
+                text: 'Name*',
+                fontSize: 16.sp,
+                fontWeight: FontWeight.w500,
+              ),
               InputTextField(
                 isHintText: true,
                 controller: nameController,
@@ -110,7 +111,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               ),
               SizedBox(height: 5.h),
 
-              BigText(text: 'Email*', fontSize: 16.sp, fontWeight: FontWeight.w500,txtColor: Colors.black,),
+              BigText(
+                text: 'Email*',
+                fontSize: 16.sp,
+                fontWeight: FontWeight.w500,
+                txtColor: Colors.black,
+              ),
 
               SizedBox(height: 5.h),
 
@@ -150,28 +156,40 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 fontSize: 15.sp,
               ),
 
-          InputTextField(
-              controller: kidsCountController,
-              hintText: "How many kids would you like to enroll",
+              InputTextField(
+                controller: kidsCountController,
+                hintText: "How many kids would you like to enroll",
 
-              textInputType: TextInputType.number,
-              isHintText: true,
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return "Please Enter Number of kids.";
-                }
-                return null;
-              },
-            ),
+                textInputType: TextInputType.number,
+                isHintText: true,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Please Enter Number of kids.";
+                  }
+                  return null;
+                },
+              ),
               SizedBox(height: 16.h),
 
               CustomButton(
                 text: 'Save & Next',
                 onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    String kids = kidsCountController.text.trim();
+                    int kidsCount = int.parse(kids);
+                    int currentStu = 1;
 
-                  if(_formKey.currentState!.validate()){
-                    Navigator.push(context, MaterialPageRoute(builder: (_)=>LoginScreen()));
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => OnboardingScreen2(
+                          kids: kidsCount,
+                          currentStu: currentStu,
+                        ),
+                      ),
+                    );
                   }
+
                 },
                 bgColor: AppColor.black,
               ),
