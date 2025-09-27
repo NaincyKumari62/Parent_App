@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../res/Colors/color.dart';
 import '../../widgets/button/rounded_button.dart';
@@ -70,8 +71,16 @@ class _LoginScreenState extends State<LoginScreen> {
 
                         CustomButton(
                           text: 'Continue',
-                          onPressed: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context)=>OtpVerification()));
+                          onPressed: () async {
+                            if (phoneController.text.trim().length == 10) {
+                              SharedPreferences prefs =  await SharedPreferences.getInstance();
+                              await prefs.setString('phoneNumber', phoneController.text.trim());
+
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (_) => OtpVerification()),
+                              );
+                            }
                           },
                           bgColor: phoneController.text.trim().length == 10
                               ? AppColor.black

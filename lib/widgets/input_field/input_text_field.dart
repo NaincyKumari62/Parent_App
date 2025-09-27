@@ -7,7 +7,9 @@ class InputTextField extends StatefulWidget {
   final bool? isHintText;
   final TextInputType? textInputType;
   final TextEditingController controller;
-  final String? Function(String?)? validator;
+  final double? fontSize;
+  final bool readOly;
+  final String?Function(String?)? validator;
   final Widget? suffixIcon;
   
 
@@ -15,11 +17,14 @@ class InputTextField extends StatefulWidget {
   const InputTextField({
     super.key,
     required this.controller,
-    required this.hintText,
+     required this.hintText,
     this.isHintText = false,
     this.textInputType = TextInputType.text,
     this.validator,
     this.suffixIcon,
+    this.readOly = false,
+    this.fontSize = 14,
+
 
   });
 
@@ -35,11 +40,15 @@ class _InputTextFieldState extends State<InputTextField> {
       children: [
         SizedBox(height: 8.h),
         TextFormField(
+          readOnly: widget.readOly,
           controller: widget.controller,
           validator: widget.validator,
           keyboardType: widget.textInputType,
           decoration: InputDecoration(
             suffixIcon: widget.suffixIcon,
+            hintStyle: TextStyle(
+              fontSize: widget.fontSize
+            ),
             hintText: widget.isHintText == true ? widget.hintText : null,
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10.r),

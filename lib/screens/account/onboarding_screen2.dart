@@ -35,6 +35,33 @@ class _OnboardingScreen2State extends State<OnboardingScreen2> {
   final bankNameController = TextEditingController();
   final branchNameController = TextEditingController();
   final ifscController = TextEditingController();
+  final schoolNameController=TextEditingController();
+
+
+  TimeOfDay? startTime;
+  TimeOfDay? endTime;
+
+  TextEditingController startTimeController = TextEditingController();
+  TextEditingController endTimeController = TextEditingController();
+
+  Future<void> _selectTime(BuildContext context, bool isStartTime) async {
+    final TimeOfDay? pickedTime = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+    );
+    if (pickedTime != null) {
+      setState(() {
+        if (isStartTime) {
+          startTime = pickedTime;
+          startTimeController.text = pickedTime.format(context);
+        } else {
+          endTime = pickedTime;
+          endTimeController.text = pickedTime.format(context);
+        }
+      });
+    }
+  }
+
 
   String? selectedAge;
   String? selectedGender;
@@ -46,7 +73,7 @@ class _OnboardingScreen2State extends State<OnboardingScreen2> {
     }
   }
 
-  List<String> ageList = List.generate(43, (index) => (index + 18).toString());
+  List<String> ageList = List.generate(43, (index) => (index + 5).toString());
 
   @override
   Widget build(BuildContext context) {
@@ -113,6 +140,27 @@ class _OnboardingScreen2State extends State<OnboardingScreen2> {
               ),
               SizedBox(height: 16.h),
 
+
+              // DOB
+              BigText(
+                text: 'Date of Birth*',
+                fontSize: 16.sp,
+                fontWeight: FontWeight.w500,
+              ),
+              InputTextField(
+                controller: dobController,
+                suffixIcon: Icon(Icons.calendar_month),
+                isHintText: true,
+                textInputType: TextInputType.datetime,
+                hintText: 'DD/MM/YYYY',
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Please Enter Date of Birth";
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 16.h),
               // Age + Gender
               Row(
                 children: [
@@ -121,7 +169,7 @@ class _OnboardingScreen2State extends State<OnboardingScreen2> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         BigText(
-                          text: 'Age',
+                          text: 'Age*',
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w500,
                         ),
@@ -147,8 +195,8 @@ class _OnboardingScreen2State extends State<OnboardingScreen2> {
                           icon: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: const [
-                              Icon(Icons.keyboard_arrow_up, size: 18),
-                              Icon(Icons.keyboard_arrow_down, size: 18),
+                              Icon(Icons.keyboard_arrow_up, size: 17),
+                              Icon(Icons.keyboard_arrow_down, size: 17),
                             ],
                           ),
 
@@ -178,7 +226,7 @@ class _OnboardingScreen2State extends State<OnboardingScreen2> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        BigText(text: 'Gender', fontSize: 16.sp, fontWeight: FontWeight.w500),
+                        BigText(text: 'Gender*', fontSize: 16.sp, fontWeight: FontWeight.w500),
 
                         DropdownButtonFormField<String>(
                           value: selectedGender,
@@ -230,104 +278,128 @@ class _OnboardingScreen2State extends State<OnboardingScreen2> {
                 ],
               ),
               SizedBox(height: 16.h),
-
-              // DOB
-              BigText(
-                text: 'Date of Birth*',
-                fontSize: 16.sp,
-                fontWeight: FontWeight.w500,
+              // Pickup Address
+              Text(
+                "Pickup & Drop Address*",
+                style: TextStyle(fontWeight: FontWeight.bold),
               ),
               InputTextField(
-                controller: dobController,
-                suffixIcon: Icon(Icons.calendar_month),
+                controller: address1Controller,
+                hintText: 'Line1',
                 isHintText: true,
-                textInputType: TextInputType.datetime,
-                hintText: 'DD/MM/YYYY',
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return "Please Enter Date of Birth";
+                    return "Please Enter Residential Address";
                   }
                   return null;
                 },
               ),
-              SizedBox(height: 16.h),
+              SizedBox(height: 5.h),
+              InputTextField(
+                controller: address2Controller,
+                hintText: 'Postal Code',
+                isHintText: true,
+              ),
+              SizedBox(height: 5.h),
 
-              // Bank Details
+              // School name
               BigText(
-                text: "Bank Account Number*",
+                text: "School Name*",
                 fontSize: 16.sp,
                 fontWeight: FontWeight.w500,
               ),
               InputTextField(
-                hintText: "Bank Account Number",
-                controller: bankAccountController,
+                hintText: "Enter your child’s school name",
+                controller: schoolNameController,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return "Please Enter Bank Account Number";
+                    return "Please Enter your child school name";
                   }
                   return null;
                 },
               ),
+              // School Hours
               BigText(
-                text: "Bank Account Holder Name*",
+                text: "School Hours*",
                 fontSize: 16.sp,
                 fontWeight: FontWeight.w500,
               ),
+
+
+              Row(
+                children: [
+                  // Start Time
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () => _selectTime(context, true),
+                      child: AbsorbPointer(
+                        child: InputTextField(
+                          controller: startTimeController, hintText: 'Start Time',
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Select start time';
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                    ),
+                  ),
+                  Text(" - "),
+
+                  // End Time
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () => _selectTime(context, false),
+                      child: AbsorbPointer(
+                        child: InputTextField(
+                          controller: endTimeController,
+                          hintText: 'End Time',
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Select end time';
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+
+
+
+
+
+
+
+
+SizedBox(height: 10.h,),
+
+              Text(
+                "Pickup & Drop Address*",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
               InputTextField(
-                hintText: "Bank Account Holder Name",
-                controller: holderNameController,
+                controller: address1Controller,
+                hintText: 'Line1',
+                isHintText: true,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return "Please Enter Account Holder Name";
+                    return "Please Enter Residential Address";
                   }
                   return null;
                 },
               ),
-              BigText(
-                text: "Bank Name*",
-                fontSize: 16.sp,
-                fontWeight: FontWeight.w500,
-              ),
+              SizedBox(height: 5.h),
               InputTextField(
-                hintText: "Bank Name",
-                controller: bankNameController,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return "Please Enter Bank Name";
-                  }
-                  return null;
-                },
+                controller: address2Controller,
+                hintText: 'Postal Code',
+                isHintText: true,
               ),
-              BigText(
-                text: "Branch Name*",
-                fontSize: 16.sp,
-                fontWeight: FontWeight.w500,
-              ),
-              InputTextField(
-                hintText: "Branch Name*",
-                controller: branchNameController,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return "Please Enter Branch Name";
-                  }
-                  return null;
-                },
-              ),
-              BigText(
-                text: "IFSC Code",
-                fontSize: 16.sp,
-                fontWeight: FontWeight.w500,
-              ),
-              InputTextField(
-                hintText: "IFSC Code*",
-                controller: ifscController,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return "Please Enter IFSC Code";
-                  }
-                  return null;
-                },
-              ),
+
+
 
               SizedBox(height: 24.h),
               CustomButton(

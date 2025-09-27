@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:parent_app/widgets/input_field/email_text_field.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../res/Colors/color.dart';
 import '../../widgets/button/rounded_button.dart';
@@ -143,8 +144,17 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                         CustomButton(
                           text: 'Continue',
                           onPressed:
-                              () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context)=>OtpVerification2()));
+                              () async {
+
+                                if (emailController.text.trim().length == 10) {
+                                  SharedPreferences prefs = await SharedPreferences.getInstance();
+                                  await prefs.setString('phoneNumber', emailController.text.trim());
+
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (_) => OtpVerification()),
+                                  );
+                                }
                           },
                           bgColor: emailController.text.trim().endsWith('@gmail.com')
                               ? AppColor.black

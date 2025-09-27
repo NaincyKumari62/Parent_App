@@ -28,7 +28,7 @@ class _EmailTextFieldState extends State<EmailTextField> {
           controller: widget.emailController,
           keyboardType: TextInputType.emailAddress,
           decoration: InputDecoration(
-            suffixIcon: null,
+            suffixIcon: widget.suffixIcon,
             hintText: 'Enter your Email ID',
             hintStyle: TextStyle(
                 color: Colors.grey
