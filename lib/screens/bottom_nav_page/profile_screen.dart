@@ -1,14 +1,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:parent_app/screens/bottom_nav_page/home_screen.dart';
+import 'package:parent_app/screens/dashboard/dashboard_screen.dart';
 import '../../res/Colors/color.dart';
 import '../../widgets/Tile/custom_tile.dart';
-import '../../widgets/button/rounded_button.dart';
-import '../../widgets/input_field/phone_number_field.dart';
 import '../../widgets/text/big_text.dart';
-import '../../widgets/text/medium_text.dart';
-import '../../widgets/text/small_text.dart';
-import '../profile_details/bank_details.dart';
 
 
 class ProfileScreen extends StatelessWidget {
@@ -18,8 +15,15 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        title: BigText(text: "Profile",fontSize: 25.sp,txtColor:Color(0xff222222),),
+        backgroundColor: AppColor.white,
+        title: Text("Profile"),
+        leadingWidth: 35.w,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=>DashboardScreen()));
+          },
+        ),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -38,12 +42,9 @@ class ProfileScreen extends StatelessWidget {
                 CustomTile(
                   imagePath: "assets/images/bank_icon.png",
                   iconColor: Colors.blue,
-                  title: "Bank Details",
+                  title: "Add New Kid",
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (_) => BankDetailsScreen()),
-                    );
+
                   },
                 ),
                 CustomTile(
@@ -57,9 +58,8 @@ class ProfileScreen extends StatelessWidget {
                 CustomTile(
                   imagePath: "assets/images/salery.png",
                   iconColor: Colors.purple.shade900,
-                  title: "Salary Slips",
+                  title: "Invoice History",
                   onTap: () {
-                    // TODO: Implement navigation
                   },
                 ),
                 CustomTile(
@@ -67,7 +67,6 @@ class ProfileScreen extends StatelessWidget {
                   iconColor: Colors.red.shade900,
                   title: "Attendance Report",
                   onTap: () {
-                    // TODO: Implement navigation
                   },
                 ),
               ],
@@ -82,7 +81,6 @@ class ProfileScreen extends StatelessWidget {
                   iconColor: Colors.green.shade700,
                   title: "Terms & Conditions",
                   onTap: () {
-                    // TODO: Implement navigation
                   },
                 ),
                 CustomTile(
@@ -90,7 +88,6 @@ class ProfileScreen extends StatelessWidget {
                   iconColor: Colors.red.shade900,
                   title: "Legal",
                   onTap: () {
-                    // TODO: Implement navigation
                   },
                 ),
                 CustomTile(
@@ -98,7 +95,6 @@ class ProfileScreen extends StatelessWidget {
                   iconColor: Colors.grey.shade400,
                   title: "Privacy Policy",
                   onTap: () {
-                    // TODO: Implement navigation
                   },
                 ),
               ],
@@ -122,7 +118,6 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  // Helper method to build each section with common styling
   Widget _buildSection(BuildContext context, {required List<Widget> tiles}) {
     return Container(
       margin:  EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),

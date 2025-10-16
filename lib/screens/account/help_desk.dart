@@ -1,29 +1,41 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../res/Colors/color.dart';
-import '../../widgets/text/big_text.dart';
 import '../../widgets/text/medium_text.dart';
 
-class SupportScreen extends StatelessWidget {
-  const SupportScreen({super.key});
+class HelpScreen extends StatelessWidget {
+  const HelpScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        title: BigText(text: 'Help Desk', fontSize: 20.sp),
+        backgroundColor: AppColor.white,
+        title: Text(
+          "Help Desk",
+          style: TextStyle(fontSize: 24.sp, fontWeight: FontWeight.w500),
+        ),
+        leadingWidth: 40.w,
+        leading: Padding(
+          padding: EdgeInsets.only(left: 5.w),
+          child: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        ),
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.symmetric(horizontal: 18.w, vertical: 12.h),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             MediumText(
-              text: "We’re here to help you with anything and everything on GrnLYFT",
+              text:
+                  "We’re here to help you with anything and everything on GrnLYFT",
               fontSize: 17.sp,
               textAlign: TextAlign.start,
               txtColor: Colors.black,
@@ -31,16 +43,16 @@ class SupportScreen extends StatelessWidget {
             ),
             SizedBox(height: 20.h),
 
-            /// FAQ Section
-            Text("FAQs", style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold)),
+            Text(
+              "FAQs",
+              style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
+            ),
             SizedBox(height: 10.h),
 
             _faqItem(
               "Can I mark attendance/check-in for each\nchild during pickup and drop-off?",
             ),
-            _faqItem(
-              "Can I communicate with parents?",
-            ),
+            _faqItem("Can I communicate with parents?"),
             _faqItem(
               "How do I track my earnings, bonuses, and\npayouts within the app?",
             ),
@@ -48,10 +60,12 @@ class SupportScreen extends StatelessWidget {
               "How can I view my assigned route and list\nof student stops in real time?",
             ),
 
-            SizedBox(height: 30.h),
+            SizedBox(height: 60.h),
 
-            /// Contact Section
-            Text("Contact Support", style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold)),
+            Text(
+              "Contact Support",
+              style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
+            ),
             SizedBox(height: 10.h),
 
             Row(
@@ -85,7 +99,6 @@ class SupportScreen extends StatelessWidget {
     );
   }
 
-  /// Helper widget for FAQ item
   Widget _faqItem(String question) {
     return Padding(
       padding: EdgeInsets.only(left: 5.w),
@@ -95,10 +108,7 @@ class SupportScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
-                child: Text(
-                  question,
-                  style: TextStyle(fontSize: 15.sp),
-                ),
+                child: Text(question, style: TextStyle(fontSize: 15.sp)),
               ),
               Icon(Icons.add, color: Colors.grey, size: 20.sp),
             ],

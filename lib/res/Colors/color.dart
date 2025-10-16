@@ -20,6 +20,9 @@ class AppColor{
   static const Color grey_btn=Color(0xffD9D9D9);
   static const Color grey_date_color=Color(0xffD9D9D9);
   static const Color grey_arrow=Color(0xff747783);
+  static const dividerColor = Color(0xffE3E3E3);
   static const Color icon_person=Color(0xffFB6F3D);
+
+
 
 }

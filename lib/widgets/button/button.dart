@@ -1,44 +1,61 @@
+
 import 'package:flutter/material.dart';
-
-class CustomButton2 extends StatelessWidget {
-  final String text;
-  final VoidCallback onPressed;
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+class IconAndTextButton extends StatelessWidget {
+  final double cWidth;
+  final double cHeight;
+  final String btnName;
   final Color bgColor;
-  final Color textColor;
-  final double borderRadius;
-  final double elevation;
-  final double width;
+  final IconData? icon;
+  final Color? textColor;
+  final double? radius;
+  final double? textFont;
+  final double iconSize;
+  final VoidCallback onPressed;
 
-  const CustomButton2({
-    Key? key,
-    required this.text,
+  const IconAndTextButton({
+    super.key,
+    required this.cWidth,
+    required this.cHeight,
+    required this.btnName,
+    required this.bgColor,
+    this.textFont,
+    this.icon,
+    this.iconSize =30,
+    this.textColor = const Color(0xffFFFFFF),
+    this.radius = 20,
     required this.onPressed,
-    required this. bgColor ,
-    this.textColor = Colors.white,
-    this.borderRadius = 5,
-    this.elevation = 1.0,
-    this.width=200
-
-
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onPressed,
-      child: Material(
-        elevation: elevation,
-        borderRadius: BorderRadius.circular(borderRadius),
-        child: Container(
-          height: 30,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(borderRadius),
-            color:  bgColor,
+      child: Container(
+        width: cWidth,
+        height: cHeight,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(radius!),
+          color: bgColor,
+        ),
+        child: Center(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10.w),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Icon(icon,color: Colors.white,size: iconSize,),
+                Text(
+                  btnName,
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                      fontSize: textFont
+                  ),
+                ),
+              ],
+            ),
           ),
-          child: Center(
-            child: Text(text,style: TextStyle(color: Colors.white,fontSize: 13),),
-          ),
-
         ),
       ),
     );

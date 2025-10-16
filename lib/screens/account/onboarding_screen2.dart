@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:parent_app/screens/account/approval_screen.dart';
 import 'dart:io';
 import '../../res/Colors/color.dart';
 import '../../widgets/button/rounded_button.dart';
@@ -11,8 +12,9 @@ import '../../widgets/text/medium_text.dart';
 
 class OnboardingScreen2 extends StatefulWidget {
   final int kids;
-   int currentStu;
- OnboardingScreen2({super.key, required this.kids, required this.currentStu});
+  int currentStu;
+
+  OnboardingScreen2({super.key, required this.kids, required this.currentStu});
 
   @override
   _OnboardingScreen2State createState() => _OnboardingScreen2State();
@@ -24,31 +26,63 @@ class _OnboardingScreen2State extends State<OnboardingScreen2> {
   final _formKey = GlobalKey<FormState>();
 
   // Controllers
-  final nameController = TextEditingController();
-  final mobileController = TextEditingController();
+  final schoolPostalController = TextEditingController();
+  final schoolAddressController = TextEditingController();
   final dobController = TextEditingController();
   final address1Controller = TextEditingController();
   final address2Controller = TextEditingController();
   final postalController = TextEditingController();
-  final bankAccountController = TextEditingController();
-  final holderNameController = TextEditingController();
-  final bankNameController = TextEditingController();
-  final branchNameController = TextEditingController();
-  final ifscController = TextEditingController();
-  final schoolNameController=TextEditingController();
 
+  // final bankAccountController = TextEditingController();
+  // final holderNameController = TextEditingController();
+  // final bankNameController = TextEditingController();
+  // final branchNameController = TextEditingController();
+  final nameController = TextEditingController();
+  final schoolNameController = TextEditingController();
 
   TimeOfDay? startTime;
   TimeOfDay? endTime;
 
   TextEditingController startTimeController = TextEditingController();
   TextEditingController endTimeController = TextEditingController();
-
   Future<void> _selectTime(BuildContext context, bool isStartTime) async {
     final TimeOfDay? pickedTime = await showTimePicker(
       context: context,
       initialTime: TimeOfDay.now(),
+      builder: (BuildContext context, Widget? child) {
+        return Theme(
+          data: ThemeData.light().copyWith(
+            timePickerTheme: TimePickerThemeData(
+              backgroundColor: AppColor.white,
+              dialBackgroundColor: AppColor.grey_date_color,
+              dialTextColor: MaterialStateColor.resolveWith((states) {
+
+                if (states.contains(MaterialState.selected)) {
+                  return AppColor.white;
+                }
+                return AppColor.black;
+              }),
+              dialHandColor: Colors.black,
+              hourMinuteColor: Colors.grey.shade300,
+              hourMinuteTextColor: Colors.black,
+              entryModeIconColor: Colors.black,
+              helpTextStyle:  TextStyle(color: Colors.black),
+            ),
+            colorScheme:  ColorScheme.light(
+              primary: AppColor.black,
+              onSurface: AppColor.black,
+            ),
+            textButtonTheme: TextButtonThemeData(
+              style: TextButton.styleFrom(
+                foregroundColor: AppColor.black,
+              ),
+            ),
+          ),
+          child: child!,
+        );
+      },
     );
+
     if (pickedTime != null) {
       setState(() {
         if (isStartTime) {
@@ -62,7 +96,6 @@ class _OnboardingScreen2State extends State<OnboardingScreen2> {
     }
   }
 
-
   String? selectedAge;
   String? selectedGender;
 
@@ -75,13 +108,25 @@ class _OnboardingScreen2State extends State<OnboardingScreen2> {
 
   List<String> ageList = List.generate(43, (index) => (index + 5).toString());
 
+  String findNumberOfPage(int num) {
+    switch (num) {
+      case 1:
+        return 'st';
+      case 2:
+        return 'nd';
+      case 3:
+        return 'rd';
+      default:
+        return 'th';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       appBar: AppBar(
         backgroundColor: AppColor.white,
-        title: BigText(text: "Onboarding",fontSize: 22.sp,),
+        title: BigText(text: "Onboarding", fontSize: 22.sp),
         leadingWidth: 35.w,
         leading: Padding(
           padding: const EdgeInsets.only(left: 10),
@@ -92,14 +137,16 @@ class _OnboardingScreen2State extends State<OnboardingScreen2> {
         ),
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(horizontal:  18.w,vertical: 10.h),
+        padding: EdgeInsets.symmetric(horizontal: 18.w, vertical: 10.h),
         child: Form(
           key: _formKey,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+
               Text(
-                '${widget.currentStu}st Student Details :',
+              widget.kids==1?'Student Details':
+                '${widget.currentStu}${findNumberOfPage(widget.currentStu)} Student Details :',
                 style: TextStyle(
                   fontSize: 18.sp,
                   fontWeight: FontWeight.w600,
@@ -126,7 +173,11 @@ class _OnboardingScreen2State extends State<OnboardingScreen2> {
               SizedBox(height: 16.h),
 
               // Name
-              BigText(text: 'Name*', fontSize: 16.sp, fontWeight: FontWeight.w500),
+              BigText(
+                text: 'Name*',
+                fontSize: 16.sp,
+                fontWeight: FontWeight.w500,
+              ),
               InputTextField(
                 isHintText: true,
                 controller: nameController,
@@ -140,7 +191,6 @@ class _OnboardingScreen2State extends State<OnboardingScreen2> {
               ),
               SizedBox(height: 16.h),
 
-
               // DOB
               BigText(
                 text: 'Date of Birth*',
@@ -149,10 +199,53 @@ class _OnboardingScreen2State extends State<OnboardingScreen2> {
               ),
               InputTextField(
                 controller: dobController,
-                suffixIcon: Icon(Icons.calendar_month),
                 isHintText: true,
                 textInputType: TextInputType.datetime,
                 hintText: 'DD/MM/YYYY',
+                readOly: true,
+
+                suffixIcon: IconButton(
+                  icon: Icon(
+                    Icons.calendar_month_outlined,
+                    color: AppColor.grey_date_color,
+                  ),
+                  onPressed: () async {
+                    DateTime? pickedDate = await showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime(2015),
+                      lastDate: DateTime.now(),
+                      builder: (BuildContext context, Widget? child) {
+                        return Theme(
+                          data: ThemeData.light().copyWith(
+                            colorScheme: const ColorScheme.light(
+                              primary: Colors.black,
+                              onPrimary: Colors.white,
+                              onSurface: Colors.black,
+                            ),
+                            dialogBackgroundColor: Colors.white,
+                            textButtonTheme: TextButtonThemeData(
+                              style: TextButton.styleFrom(
+                                foregroundColor: Colors.black,
+                              ),
+                            ),
+                          ),
+                          child: child!,
+                        );
+                      },
+                    );
+
+                    if (pickedDate != null) {
+                      String formattedDate =
+                          "${pickedDate.day.toString().padLeft(2, '0')}/"
+                          "${pickedDate.month.toString().padLeft(2, '0')}/"
+                          "${pickedDate.year}";
+                      dobController.text = formattedDate;
+                    }
+                  },
+
+
+                ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return "Please Enter Date of Birth";
@@ -173,10 +266,11 @@ class _OnboardingScreen2State extends State<OnboardingScreen2> {
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w500,
                         ),
-                        SizedBox(height: 8.h),
+                        SizedBox(height: 6.h),
                         DropdownButtonFormField<String>(
                           decoration: InputDecoration(
-                            hintText: 'Age',
+
+                            hintText: 'kid\'s age',
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10.r),
                               borderSide: BorderSide(
@@ -192,6 +286,7 @@ class _OnboardingScreen2State extends State<OnboardingScreen2> {
                             ),
                             border: const OutlineInputBorder(),
                           ),
+                          dropdownColor: Colors.white,
                           icon: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: const [
@@ -204,6 +299,7 @@ class _OnboardingScreen2State extends State<OnboardingScreen2> {
                           items: ageList.map((age) {
                             return DropdownMenuItem<String>(
                               value: age,
+
                               child: Text(age),
                             );
                           }).toList(),
@@ -213,64 +309,67 @@ class _OnboardingScreen2State extends State<OnboardingScreen2> {
                             });
                           },
                           validator: (value) =>
-                          value == null ? "Please select Age" : null,
+                              value == null ? "Please select Age" : null,
                         ),
                       ],
                     ),
-                  )
-                  ,
-
+                  ),
 
                   SizedBox(width: 10.w),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        BigText(text: 'Gender*', fontSize: 16.sp, fontWeight: FontWeight.w500),
-
+                        SizedBox(height: 2.h,),
+                        BigText(
+                          text: 'Gender*',
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        SizedBox(height: 6.h),
                         DropdownButtonFormField<String>(
                           value: selectedGender,
                           decoration: InputDecoration(
                             hintText: 'Select',
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10.r),
-                              borderSide:  BorderSide(
+                              borderSide: BorderSide(
                                 color: AppColor.onboardingBorder,
                                 width: 1.w,
                               ),
                             ),
                             disabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(1.r),
-                              borderSide:  BorderSide(
+                              borderSide: BorderSide(
                                 color: AppColor.onboardingBorder,
                                 width: 1.w,
-                              ), // focused border color
+                              ),
                             ),
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10.r),
-                              borderSide: const BorderSide(
+                              borderSide:  BorderSide(
                                 color: AppColor.onboardingBorder,
                               ),
                             ),
-                            border: const OutlineInputBorder(),
+                            border:  OutlineInputBorder(),
                           ),
-                          items: [
-                            'Male',
-                            'Female',
-                            'Transgender',
-                          ].map((String value) {
+                          items: ['Male', 'Female'].map((
+                            String value,
+                          ) {
                             return DropdownMenuItem<String>(
                               value: value,
                               child: Text(value),
                             );
+
                           }).toList(),
+                          dropdownColor: Colors.white,
                           onChanged: (value) {
                             setState(() {
                               selectedGender = value;
                             });
                           },
                           validator: (value) =>
-                          value == null ? "Please select Gender" : null,
+                              value == null ? "Please select Gender" : null,
                         ),
                       ],
                     ),
@@ -299,6 +398,12 @@ class _OnboardingScreen2State extends State<OnboardingScreen2> {
                 controller: address2Controller,
                 hintText: 'Postal Code',
                 isHintText: true,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Please Enter Postal code";
+                  }
+                  return null;
+                },
               ),
               SizedBox(height: 5.h),
 
@@ -325,7 +430,6 @@ class _OnboardingScreen2State extends State<OnboardingScreen2> {
                 fontWeight: FontWeight.w500,
               ),
 
-
               Row(
                 children: [
                   // Start Time
@@ -334,7 +438,9 @@ class _OnboardingScreen2State extends State<OnboardingScreen2> {
                       onTap: () => _selectTime(context, true),
                       child: AbsorbPointer(
                         child: InputTextField(
-                          controller: startTimeController, hintText: 'Start Time',
+                          controller: startTimeController,
+                          hintText: 'Start Time',
+
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Select start time';
@@ -354,6 +460,7 @@ class _OnboardingScreen2State extends State<OnboardingScreen2> {
                       child: AbsorbPointer(
                         child: InputTextField(
                           controller: endTimeController,
+
                           hintText: 'End Time',
                           validator: (value) {
                             if (value == null || value.isEmpty) {
@@ -368,21 +475,14 @@ class _OnboardingScreen2State extends State<OnboardingScreen2> {
                 ],
               ),
 
-
-
-
-
-
-
-
-SizedBox(height: 10.h,),
+              SizedBox(height: 10.h),
 
               Text(
-                "Pickup & Drop Address*",
+                "School Address*",
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               InputTextField(
-                controller: address1Controller,
+                controller: schoolAddressController,
                 hintText: 'Line1',
                 isHintText: true,
                 validator: (value) {
@@ -394,30 +494,49 @@ SizedBox(height: 10.h,),
               ),
               SizedBox(height: 5.h),
               InputTextField(
-                controller: address2Controller,
+                controller: schoolPostalController,
                 hintText: 'Postal Code',
                 isHintText: true,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Please Enter Postal code";
+                  }
+                  return null;
+                },
               ),
-
-
 
               SizedBox(height: 24.h),
               CustomButton(
-                text: 'Save & Next',
+                text: widget.currentStu == widget.kids
+                    ? 'Create Profile'
+                    : 'Save & Next',
                 onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    //  form valid hua to agla page open hoga
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text("Form Submitted Successfully")),
-                    );
-                    if(widget.currentStu<widget.kids){
-                      Navigator.push(context, MaterialPageRoute(builder: (_)=>OnboardingScreen2(kids: widget.kids, currentStu: widget.currentStu)));
-                    }
+                  if (_formKey.currentState!.validate() && _image != null) {
 
+                    if (widget.currentStu < widget.kids) {
+                      int currentKidNo = widget.currentStu + 1;
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => OnboardingScreen2(
+                        kids: widget.kids,
+                        currentStu: currentKidNo,
+                      ),
+                        ),
+                      );
+                    } else {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => ApprovalScreen()),
+                      );
+                    }
                   }
-                  if(widget.currentStu<widget.kids){
-                    int currentStu = widget.currentStu+1;
-                    Navigator.push(context, MaterialPageRoute(builder: (_)=>OnboardingScreen2(kids: widget.kids, currentStu: currentStu)));
+                  else {
+                    if (_image == null) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('Please Upload Id card photo')),
+                      );
+                    }
                   }
                 },
                 bgColor: AppColor.black,

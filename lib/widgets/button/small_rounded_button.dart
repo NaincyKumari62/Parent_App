@@ -36,12 +36,12 @@ class SmallRoundedButton extends StatelessWidget {
         ),
         child: Center(
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 5.w),
+            padding: EdgeInsets.symmetric(horizontal: 10.w),
             child: Text(
               btnName,
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                color: Colors.white,
+                color: textColor,
                 fontSize: textFont
               ),
             ),

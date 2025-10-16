@@ -51,7 +51,6 @@ class UploadFileBox extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children:  [
-                  BigText(text:  "Drag & Drop or ",fontSize: 16.sp,fontWeight: FontWeight.w400,),
                   MediumText(text: "Choose file",fontSize: 16.sp,fontWeight: FontWeight.w400, txtColor: AppColor.blue,),
                   BigText(text:  " to upload",fontSize: 16.sp,fontWeight: FontWeight.w400,),
 

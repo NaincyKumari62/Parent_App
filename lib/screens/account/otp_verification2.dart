@@ -1,16 +1,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:parent_app/screens/account/email_verification_screen.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 import '../../res/Colors/color.dart';
 import '../../widgets/button/rounded_button.dart';
-import '../../widgets/input_field/phone_number_field.dart';
 import '../../widgets/text/medium_text.dart';
-import '../../widgets/text/small_text.dart';
-import 'login_screen.dart';
 import 'onboarding_screen.dart';
-import 'otp_verification.dart';
 
 class OtpVerification2 extends StatefulWidget {
   const OtpVerification2({super.key});
@@ -43,7 +40,7 @@ class _OtpVerification2State extends State<OtpVerification2> {
       appBar: AppBar(
         backgroundColor: AppColor.white,
         leading: IconButton(onPressed: (){
-          Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginScreen()));
+          Navigator.push(context, MaterialPageRoute(builder: (context)=>EmailVerificationScreen()));
         }, icon: Icon(Icons.arrow_back)),
         title: Text('Verify OTP',style: TextStyle(
             fontSize: 20.sp,
@@ -56,7 +53,7 @@ class _OtpVerification2State extends State<OtpVerification2> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 25.h),
+            SizedBox(height: 20.h),
             MediumText(text: 'Enter the OTP Sent to your mobile number',fontSize: 14,fontWeight: FontWeight.w400,),
             SizedBox(height: 10.h),
             Form(

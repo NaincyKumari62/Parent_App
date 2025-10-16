@@ -5,6 +5,7 @@ class CustomButton extends StatelessWidget {
   final VoidCallback onPressed;
   final Color bgColor;
   final double? cHeight;
+  final double? cWidth;
   final Color textColor;
   final double borderRadius;
   final double elevation;
@@ -18,6 +19,7 @@ class CustomButton extends StatelessWidget {
     this.borderRadius = 8,
     this.elevation = 2.0,
     this.cHeight = 50,
+    this.cWidth = double.maxFinite
 
 
   }) : super(key: key);
@@ -30,7 +32,7 @@ class CustomButton extends StatelessWidget {
         elevation: elevation,
         borderRadius: BorderRadius.circular(borderRadius),
         child: Container(
-          width: double.infinity,
+          width: cWidth,
           height: cHeight,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(borderRadius),

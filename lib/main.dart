@@ -5,6 +5,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:parent_app/screens/account/onboarding_screen.dart';
 import 'package:parent_app/screens/account/onboarding_screen2.dart';
+import 'package:parent_app/screens/bottom_nav_page/home_screen.dart';
+import 'package:parent_app/screens/dashboard/dashboard_screen.dart';
 import 'package:parent_app/screens/splash_screen.dart';
 
 void main() {
@@ -21,10 +23,10 @@ class MyApp extends StatelessWidget {
       designSize: ScreenUtil.defaultSize,
       child:  MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Driver App',
+        title: 'Parent App',
         theme: ThemeData(
           scaffoldBackgroundColor: Colors.white,
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.black),
         ),
         home: SplashScreen(),
       ),

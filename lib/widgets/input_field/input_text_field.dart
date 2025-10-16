@@ -6,7 +6,7 @@ class InputTextField extends StatefulWidget {
   final String hintText;
   final bool? isHintText;
   final TextInputType? textInputType;
-  final TextEditingController controller;
+  final TextEditingController? controller;
   final double? fontSize;
   final bool readOly;
   final String?Function(String?)? validator;
@@ -16,7 +16,7 @@ class InputTextField extends StatefulWidget {
 
   const InputTextField({
     super.key,
-    required this.controller,
+     this.controller,
      required this.hintText,
     this.isHintText = false,
     this.textInputType = TextInputType.text,
