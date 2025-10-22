@@ -67,190 +67,192 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           },
         ),
       ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(horizontal:16.w),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Guardian’s Details :',
-                style: TextStyle(
-                  fontSize: 18.sp,
-                  fontWeight: FontWeight.w600,
-                  decoration: TextDecoration.underline,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: EdgeInsets.symmetric(horizontal:16.w),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Guardian’s Details :',
+                  style: TextStyle(
+                    fontSize: 18.sp,
+                    fontWeight: FontWeight.w600,
+                    decoration: TextDecoration.underline,
+                  ),
                 ),
-              ),
 
-              SizedBox(height: 5.h),
+                SizedBox(height: 5.h),
 
-              BigText(
-                text: 'Name*',
-                fontSize: 16.sp,
-                fontWeight: FontWeight.w500,
-              ),
+                BigText(
+                  text: 'Name*',
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w500,
+                ),
 
-              InputTextField(
-                isHintText: true,
-                controller: nameController,
-                hintText: 'Enter your full name of Guardian',
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return "Please Enter Name";
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(height: 5.h),
+                InputTextField(
+                  isHintText: true,
+                  controller: nameController,
+                  hintText: 'Enter your full name of Guardian',
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "Please Enter Name";
+                    }
+                    return null;
+                  },
+                ),
+                SizedBox(height: 5.h),
 
-              BigText(
-                text: 'Mobile* ',
-                fontSize: 16.sp,
-                fontWeight: FontWeight.w500,
-              ),
-              SizedBox(width: 8.w),
+                BigText(
+                  text: 'Mobile* ',
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w500,
+                ),
+                SizedBox(width: 8.w),
 
-              InputTextField(
-                isHintText: true,
-                suffixIcon: Icon(Icons.check_circle, color: Colors.green),
-                readOly: true,
-                hintText: '+91 ${phoneNumber}',
-              ),
-
-              SizedBox(width: 8.sp),
-
-              SizedBox(height: 5.h),
-
-              BigText(
-                text: 'Email*',
-                fontSize: 16.sp,
-                fontWeight: FontWeight.w500,
-                txtColor: Colors.black,
-              ),
-
-              SizedBox(height: 5.h),
-              InputTextField(
-                suffixIcon: Icon(Icons.check_circle, color: Colors.green),
-                isHintText: true,
-                readOly: true,
-                hintText: ' ${email}',
-              ),
-
-              SizedBox(height: 8.h),
-
-              // Upload Photo
-              MediumText(
-                text: "Aadhaar Card (back/front)",
-                fontWeight: FontWeight.w500,
-                fontSize: 15.sp,
-              ),
-              SizedBox(height: 10.h),
-              UploadFileBox(
-                image: _image,
-                onTap: () => getImage((file) {
-                  setState(() {
-                    _image = file;
-                  });
-                }),
-              ),
-              SizedBox(height: 10.h),
-              MediumText(
-                text: "Kids Count*",
-                fontWeight: FontWeight.w500,
-                fontSize: 15.sp,
-              ),
-              SizedBox(
-                child: InputTextField(
-                  controller: kidsCountController,
+                InputTextField(
+                  isHintText: true,
+                  suffixIcon: Icon(Icons.check_circle, color: Colors.green),
                   readOly: true,
-                  suffixIcon: Builder(
-                    builder: (context) {
-                      return InkWell(
-                        onTap: () async {
-                          final RenderBox button = context.findRenderObject() as RenderBox;
-                          final RenderBox overlay =
-                          Overlay.of(context).context.findRenderObject() as RenderBox;
+                  hintText: '+91 ${phoneNumber}',
+                ),
 
-                          final RelativeRect position = RelativeRect.fromRect(
-                            Rect.fromPoints(
-                              button.localToGlobal(Offset(0, button.size.height),
-                                  ancestor: overlay),
-                              button.localToGlobal(button.size.bottomRight(Offset.zero),
-                                  ancestor: overlay),
-                            ),
-                            Offset.zero & overlay.size,
-                          );
+                SizedBox(width: 8.sp),
+
+                SizedBox(height: 5.h),
+
+                BigText(
+                  text: 'Email*',
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w500,
+                  txtColor: Colors.black,
+                ),
+
+                SizedBox(height: 5.h),
+                InputTextField(
+                  suffixIcon: Icon(Icons.check_circle, color: Colors.green),
+                  isHintText: true,
+                  readOly: true,
+                  hintText: ' ${email}',
+                ),
+
+                SizedBox(height: 8.h),
+
+                // Upload Photo
+                MediumText(
+                  text: "Aadhaar Card (back/front)",
+                  fontWeight: FontWeight.w500,
+                  fontSize: 15.sp,
+                ),
+                SizedBox(height: 10.h),
+                UploadFileBox(
+                  image: _image,
+                  onTap: () => getImage((file) {
+                    setState(() {
+                      _image = file;
+                    });
+                  }),
+                ),
+                SizedBox(height: 10.h),
+                MediumText(
+                  text: "Kids Count*",
+                  fontWeight: FontWeight.w500,
+                  fontSize: 15.sp,
+                ),
+                SizedBox(
+                  child: InputTextField(
+                    controller: kidsCountController,
+                    readOly: true,
+                    suffixIcon: Builder(
+                      builder: (context) {
+                        return InkWell(
+                          onTap: () async {
+                            final RenderBox button = context.findRenderObject() as RenderBox;
+                            final RenderBox overlay =
+                            Overlay.of(context).context.findRenderObject() as RenderBox;
+
+                            final RelativeRect position = RelativeRect.fromRect(
+                              Rect.fromPoints(
+                                button.localToGlobal(Offset(0, button.size.height),
+                                    ancestor: overlay),
+                                button.localToGlobal(button.size.bottomRight(Offset.zero),
+                                    ancestor: overlay),
+                              ),
+                              Offset.zero & overlay.size,
+                            );
 
 
-                          final selected = await showMenu<int>(
-                            context: context,
-                            position: position,
-                            color: Colors.white,
-                            elevation: 6.0,
-                            items: List.generate(10, (index) {
-                              int value = index + 1;
-                              return PopupMenuItem<int>(
-                                value: value,
-                                height: 35,
-                                padding: EdgeInsets.symmetric(horizontal: 10),
-                                child: Center(
-                                  child: Text(
-                                    value.toString(),
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500,
+                            final selected = await showMenu<int>(
+                              context: context,
+                              position: position,
+                              color: Colors.white,
+                              elevation: 6.0,
+                              items: List.generate(10, (index) {
+                                int value = index + 1;
+                                return PopupMenuItem<int>(
+                                  value: value,
+                                  height: 35,
+                                  padding: EdgeInsets.symmetric(horizontal: 10),
+                                  child: Center(
+                                    child: Text(
+                                      value.toString(),
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500,
+                                      ),
                                     ),
                                   ),
-                                ),
-                              );
-                            }),
-                          );
+                                );
+                              }),
+                            );
 
-                          if (selected != null) {
-                            kidsCountController.text = selected.toString();
-                          }
-                        },
-                        child: Icon(Icons.keyboard_arrow_down_sharp),
-                      );
-                    },
+                            if (selected != null) {
+                              kidsCountController.text = selected.toString();
+                            }
+                          },
+                          child: Icon(Icons.keyboard_arrow_down_sharp),
+                        );
+                      },
+                    ),
+                    hintText: '',
                   ),
-                  hintText: '',
                 ),
-              ),
 
-              SizedBox(height: 16.h),
+                SizedBox(height: 16.h),
 
-              CustomButton(
-                text: 'Save & Next',
-                onPressed: () {
-                  if (_formKey.currentState!.validate() && _image != null) {
-                    String kids = kidsCountController.text.trim();
-                    int kidsCount = int.parse(kids);
-                    int currentStu = 1;
+                CustomButton(
+                  text: 'Save & Next',
+                  onPressed: () {
+                    if (_formKey.currentState!.validate() && _image != null) {
+                      String kids = kidsCountController.text.trim();
+                      int kidsCount = int.parse(kids);
+                      int currentStu = 1;
 
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => OnboardingScreen2(
-                          kids: kidsCount,
-                          currentStu: currentStu,
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => OnboardingScreen2(
+                            kids: kidsCount,
+                            currentStu: currentStu,
+                          ),
                         ),
-                      ),
-                    );
-                  } else {
-                    if (_image == null) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Please Upload Aadhaar card photo')),
                       );
+                    } else {
+                      if (_image == null) {
+                        // ScaffoldMessenger.of(context).showSnackBar(
+                        //   SnackBar(content: Text('Please Upload Aadhaar card photo')),
+                        // );
+                      }
                     }
-                  }
-                },
-                bgColor: AppColor.black,
-              ),
-              SizedBox(height: 27.h),
-            ],
+                  },
+                  bgColor: AppColor.black,
+                ),
+                SizedBox(height: 28.h),
+              ],
+            ),
           ),
         ),
       ),

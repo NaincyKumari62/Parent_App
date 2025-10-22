@@ -24,5 +24,14 @@ class AppColor{
   static const Color icon_person=Color(0xffFB6F3D);
 
 
+  // profile icon color
+  static const Color icon_smile=Color(0xff518EF8);
+  static const Color icon_gift=Color(0xffF9B121);
+  static const Color icon_slip=Color(0xff763DFB);
+  static const Color icon_terms=Color(0xff34A853);
+  static const Color icon_privacy=Color(0xff949494);
+  static const Color icon_logout=Color(0xffE00000);
+  static const Color icon_legal=Color(0xffEA4335);
+
 
 }

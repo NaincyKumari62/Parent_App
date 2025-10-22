@@ -136,413 +136,417 @@ class _OnboardingScreen2State extends State<OnboardingScreen2> {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(horizontal: 18.w, vertical: 10.h),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-
-              Text(
-              widget.kids==1?'Student Details':
-                '${widget.currentStu}${findNumberOfPage(widget.currentStu)} Student Details :',
-                style: TextStyle(
-                  fontSize: 18.sp,
-                  fontWeight: FontWeight.w600,
-                  decoration: TextDecoration.underline,
-                ),
-              ),
-              SizedBox(height: 10.h),
-
-              // Upload Photo
-              MediumText(
-                text: "Upload school ID Card photo",
-                fontWeight: FontWeight.w400,
-                fontSize: 15.sp,
-              ),
-              SizedBox(height: 10.h),
-              UploadFileBox(
-                image: _image,
-                onTap: () => getImage((file) {
-                  setState(() {
-                    _image = file;
-                  });
-                }),
-              ),
-              SizedBox(height: 16.h),
-
-              // Name
-              BigText(
-                text: 'Name*',
-                fontSize: 16.sp,
-                fontWeight: FontWeight.w500,
-              ),
-              InputTextField(
-                isHintText: true,
-                controller: nameController,
-                hintText: 'Enter your full name',
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return "Please Enter Name";
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(height: 16.h),
-
-              // DOB
-              BigText(
-                text: 'Date of Birth*',
-                fontSize: 16.sp,
-                fontWeight: FontWeight.w500,
-              ),
-              InputTextField(
-                controller: dobController,
-                isHintText: true,
-                textInputType: TextInputType.datetime,
-                hintText: 'DD/MM/YYYY',
-                readOly: true,
-
-                suffixIcon: IconButton(
-                  icon: Icon(
-                    Icons.calendar_month_outlined,
-                    color: AppColor.grey_date_color,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: EdgeInsets.symmetric(horizontal: 18.w),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+        
+                Text(
+                widget.kids==1?'Student Details':
+                  '${widget.currentStu}${findNumberOfPage(widget.currentStu)} Student Details :',
+                  style: TextStyle(
+                    fontSize: 18.sp,
+                    fontWeight: FontWeight.w600,
+                    decoration: TextDecoration.underline,
                   ),
-                  onPressed: () async {
-                    DateTime? pickedDate = await showDatePicker(
-                      context: context,
-                      initialDate: DateTime.now(),
-                      firstDate: DateTime(2015),
-                      lastDate: DateTime.now(),
-                      builder: (BuildContext context, Widget? child) {
-                        return Theme(
-                          data: ThemeData.light().copyWith(
-                            colorScheme: const ColorScheme.light(
-                              primary: Colors.black,
-                              onPrimary: Colors.white,
-                              onSurface: Colors.black,
-                            ),
-                            dialogBackgroundColor: Colors.white,
-                            textButtonTheme: TextButtonThemeData(
-                              style: TextButton.styleFrom(
-                                foregroundColor: Colors.black,
-                              ),
-                            ),
-                          ),
-                          child: child!,
-                        );
-                      },
-                    );
-
-                    if (pickedDate != null) {
-                      String formattedDate =
-                          "${pickedDate.day.toString().padLeft(2, '0')}/"
-                          "${pickedDate.month.toString().padLeft(2, '0')}/"
-                          "${pickedDate.year}";
-                      dobController.text = formattedDate;
+                ),
+                SizedBox(height: 10.h),
+        
+                // Upload Photo
+                MediumText(
+                  text: "Upload school ID Card photo",
+                  fontWeight: FontWeight.w400,
+                  fontSize: 15.sp,
+                ),
+                SizedBox(height: 10.h),
+                UploadFileBox(
+                  image: _image,
+                  onTap: () => getImage((file) {
+                    setState(() {
+                      _image = file;
+                    });
+                  }),
+                ),
+                SizedBox(height: 16.h),
+        
+                // Name
+                BigText(
+                  text: 'Name*',
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w500,
+                ),
+                InputTextField(
+                  isHintText: true,
+                  controller: nameController,
+                  hintText: 'Enter your full name',
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "Please Enter Name";
                     }
+                    return null;
                   },
-
-
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return "Please Enter Date of Birth";
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(height: 16.h),
-              // Age + Gender
-              Row(
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        BigText(
-                          text: 'Age*',
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w500,
-                        ),
-                        SizedBox(height: 6.h),
-                        DropdownButtonFormField<String>(
-                          decoration: InputDecoration(
-
-                            hintText: 'kid\'s age',
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.r),
-                              borderSide: BorderSide(
-                                color: AppColor.onboardingBorder,
-                                width: 1.w,
-                              ),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.r),
-                              borderSide: BorderSide(
-                                color: AppColor.onboardingBorder,
-                              ),
-                            ),
-                            border: const OutlineInputBorder(),
-                          ),
-                          dropdownColor: Colors.white,
-                          icon: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: const [
-                              Icon(Icons.keyboard_arrow_up, size: 17),
-                              Icon(Icons.keyboard_arrow_down, size: 17),
-                            ],
-                          ),
-
-                          value: selectedAge,
-                          items: ageList.map((age) {
-                            return DropdownMenuItem<String>(
-                              value: age,
-
-                              child: Text(age),
-                            );
-                          }).toList(),
-                          onChanged: (value) {
-                            setState(() {
-                              selectedAge = value;
-                            });
-                          },
-                          validator: (value) =>
-                              value == null ? "Please select Age" : null,
-                        ),
-                      ],
+                SizedBox(height: 16.h),
+        
+                // DOB
+                BigText(
+                  text: 'Date of Birth*',
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w500,
+                ),
+                InputTextField(
+                  controller: dobController,
+                  isHintText: true,
+                  textInputType: TextInputType.datetime,
+                  hintText: 'DD/MM/YYYY',
+                  readOly: true,
+        
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      Icons.calendar_month_outlined,
+                      color: AppColor.grey_date_color,
                     ),
-                  ),
-
-                  SizedBox(width: 10.w),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(height: 2.h,),
-                        BigText(
-                          text: 'Gender*',
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w500,
-                        ),
-                        SizedBox(height: 6.h),
-                        DropdownButtonFormField<String>(
-                          value: selectedGender,
-                          decoration: InputDecoration(
-                            hintText: 'Select',
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.r),
-                              borderSide: BorderSide(
-                                color: AppColor.onboardingBorder,
-                                width: 1.w,
+                    onPressed: () async {
+                      DateTime? pickedDate = await showDatePicker(
+                        context: context,
+                        initialDate: DateTime.now(),
+                        firstDate: DateTime(2015),
+                        lastDate: DateTime.now(),
+                        builder: (BuildContext context, Widget? child) {
+                          return Theme(
+                            data: ThemeData.light().copyWith(
+                              colorScheme: const ColorScheme.light(
+                                primary: Colors.black,
+                                onPrimary: Colors.white,
+                                onSurface: Colors.black,
+                              ),
+                              dialogBackgroundColor: Colors.white,
+                              textButtonTheme: TextButtonThemeData(
+                                style: TextButton.styleFrom(
+                                  foregroundColor: Colors.black,
+                                ),
                               ),
                             ),
-                            disabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(1.r),
-                              borderSide: BorderSide(
-                                color: AppColor.onboardingBorder,
-                                width: 1.w,
-                              ),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.r),
-                              borderSide:  BorderSide(
-                                color: AppColor.onboardingBorder,
-                              ),
-                            ),
-                            border:  OutlineInputBorder(),
-                          ),
-                          items: ['Male', 'Female'].map((
-                            String value,
-                          ) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
-
-                          }).toList(),
-                          dropdownColor: Colors.white,
-                          onChanged: (value) {
-                            setState(() {
-                              selectedGender = value;
-                            });
-                          },
-                          validator: (value) =>
-                              value == null ? "Please select Gender" : null,
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 16.h),
-              // Pickup Address
-              Text(
-                "Pickup & Drop Address*",
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              InputTextField(
-                controller: address1Controller,
-                hintText: 'Line1',
-                isHintText: true,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return "Please Enter Residential Address";
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(height: 5.h),
-              InputTextField(
-                controller: address2Controller,
-                hintText: 'Postal Code',
-                isHintText: true,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return "Please Enter Postal code";
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(height: 5.h),
-
-              // School name
-              BigText(
-                text: "School Name*",
-                fontSize: 16.sp,
-                fontWeight: FontWeight.w500,
-              ),
-              InputTextField(
-                hintText: "Enter your child’s school name",
-                controller: schoolNameController,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return "Please Enter your child school name";
-                  }
-                  return null;
-                },
-              ),
-              // School Hours
-              BigText(
-                text: "School Hours*",
-                fontSize: 16.sp,
-                fontWeight: FontWeight.w500,
-              ),
-
-              Row(
-                children: [
-                  // Start Time
-                  Expanded(
-                    child: GestureDetector(
-                      onTap: () => _selectTime(context, true),
-                      child: AbsorbPointer(
-                        child: InputTextField(
-                          controller: startTimeController,
-                          hintText: 'Start Time',
-
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Select start time';
-                            }
-                            return null;
-                          },
-                        ),
-                      ),
-                    ),
-                  ),
-                  Text(" - "),
-
-                  // End Time
-                  Expanded(
-                    child: GestureDetector(
-                      onTap: () => _selectTime(context, false),
-                      child: AbsorbPointer(
-                        child: InputTextField(
-                          controller: endTimeController,
-
-                          hintText: 'End Time',
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Select end time';
-                            }
-                            return null;
-                          },
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-
-              SizedBox(height: 10.h),
-
-              Text(
-                "School Address*",
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              InputTextField(
-                controller: schoolAddressController,
-                hintText: 'Line1',
-                isHintText: true,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return "Please Enter Residential Address";
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(height: 5.h),
-              InputTextField(
-                controller: schoolPostalController,
-                hintText: 'Postal Code',
-                isHintText: true,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return "Please Enter Postal code";
-                  }
-                  return null;
-                },
-              ),
-
-              SizedBox(height: 24.h),
-              CustomButton(
-                text: widget.currentStu == widget.kids
-                    ? 'Create Profile'
-                    : 'Save & Next',
-                onPressed: () {
-                  if (_formKey.currentState!.validate() && _image != null) {
-
-                    if (widget.currentStu < widget.kids) {
-                      int currentKidNo = widget.currentStu + 1;
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => OnboardingScreen2(
-                        kids: widget.kids,
-                        currentStu: currentKidNo,
-                      ),
-                        ),
+                            child: child!,
+                          );
+                        },
                       );
-                    } else {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (_) => ApprovalScreen()),
-                      );
+        
+                      if (pickedDate != null) {
+                        String formattedDate =
+                            "${pickedDate.day.toString().padLeft(2, '0')}/"
+                            "${pickedDate.month.toString().padLeft(2, '0')}/"
+                            "${pickedDate.year}";
+                        dobController.text = formattedDate;
+                      }
+                    },
+        
+        
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "Please Enter Date of Birth";
                     }
-                  }
-                  else {
-                    if (_image == null) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Please Upload Id card photo')),
-                      );
+                    return null;
+                  },
+                ),
+                SizedBox(height: 16.h),
+                // Age + Gender
+                Row(
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          BigText(
+                            text: 'Age*',
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          SizedBox(height: 6.h),
+                          DropdownButtonFormField<String>(
+                            decoration: InputDecoration(
+        
+                              hintText: 'kid\'s age',
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10.r),
+                                borderSide: BorderSide(
+                                  color: AppColor.onboardingBorder,
+                                  width: 1.w,
+                                ),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10.r),
+                                borderSide: BorderSide(
+                                  color: AppColor.onboardingBorder,
+                                ),
+                              ),
+                              border: const OutlineInputBorder(),
+                            ),
+                            dropdownColor: Colors.white,
+                            icon: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: const [
+                                // Icon(Icons.keyboard_arrow_up, size: 17),
+                                Icon(Icons.keyboard_arrow_down, size: 17),
+                              ],
+                            ),
+        
+                            value: selectedAge,
+                            items: ageList.map((age) {
+                              return DropdownMenuItem<String>(
+                                value: age,
+        
+                                child: Text(age),
+                              );
+                            }).toList(),
+                            onChanged: (value) {
+                              setState(() {
+                                selectedAge = value;
+                              });
+                            },
+                            validator: (value) =>
+                                value == null ? "Please select Age" : null,
+                          ),
+                        ],
+                      ),
+                    ),
+        
+                    SizedBox(width: 10.w),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(height: 2.h,),
+                          BigText(
+                            text: 'Gender*',
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          SizedBox(height: 6.h),
+                          DropdownButtonFormField<String>(
+                            value: selectedGender,
+                            decoration: InputDecoration(
+                              hintText: 'Select',
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10.r),
+                                borderSide: BorderSide(
+                                  color: AppColor.onboardingBorder,
+                                  width: 1.w,
+                                ),
+                              ),
+                              disabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(1.r),
+                                borderSide: BorderSide(
+                                  color: AppColor.onboardingBorder,
+                                  width: 1.w,
+                                ),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10.r),
+                                borderSide:  BorderSide(
+                                  color: AppColor.onboardingBorder,
+                                ),
+                              ),
+                              border:  OutlineInputBorder(),
+                            ),
+                            items: ['Male', 'Female'].map((
+                              String value,
+                            ) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              );
+        
+                            }).toList(),
+                            dropdownColor: Colors.white,
+                            onChanged: (value) {
+                              setState(() {
+                                selectedGender = value;
+                              });
+                            },
+                            validator: (value) =>
+                                value == null ? "Please select Gender" : null,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 16.h),
+                // Pickup Address
+                Text(
+                  "Pickup & Drop Address*",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                InputTextField(
+                  controller: address1Controller,
+                  hintText: 'Line1',
+                  isHintText: true,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "Please Enter Residential Address";
                     }
-                  }
-                },
-                bgColor: AppColor.black,
-              ),
-              SizedBox(height: 27.h),
-            ],
+                    return null;
+                  },
+                ),
+                SizedBox(height: 5.h),
+                InputTextField(
+                  controller: address2Controller,
+                  hintText: 'Postal Code',
+                  textInputType:TextInputType.number,
+                  isHintText: true,
+                  validator: (value) {
+                    if (address2Controller.text.trim().length != 6 ) {
+                      return "Please Enter 6 digit code";
+                    }
+                    return null;
+                  },
+                ),
+                SizedBox(height: 5.h),
+        
+                // School name
+                BigText(
+                  text: "School Name*",
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w500,
+                ),
+                InputTextField(
+                  hintText: "Enter your child’s school name",
+                  controller: schoolNameController,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "Please Enter your child school name";
+                    }
+                    return null;
+                  },
+                ),
+                // School Hours
+                BigText(
+                  text: "School Hours*",
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w500,
+                ),
+        
+                Row(
+                  children: [
+                    // Start Time
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () => _selectTime(context, true),
+                        child: AbsorbPointer(
+                          child: InputTextField(
+                            controller: startTimeController,
+                            hintText: 'Start Time',
+        
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Select start time';
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                      ),
+                    ),
+                    Text(" - "),
+        
+                    // End Time
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () => _selectTime(context, false),
+                        child: AbsorbPointer(
+                          child: InputTextField(
+                            controller: endTimeController,
+        
+                            hintText: 'End Time',
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Select end time';
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+        
+                SizedBox(height: 10.h),
+        
+                Text(
+                  "School Address*",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                InputTextField(
+                  controller: schoolAddressController,
+                  hintText: 'Line1',
+                  isHintText: true,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "Please Enter Residential Address";
+                    }
+                    return null;
+                  },
+                ),
+                SizedBox(height: 5.h),
+                InputTextField(
+                  controller: schoolPostalController,
+                  hintText: 'Postal Code',
+                  textInputType: TextInputType.number,
+                  isHintText: true,
+                  validator: (value) {
+                    if (schoolPostalController.text.trim().length != 6) {
+                      return "Please Enter Postal code";
+                    }
+                    return null;
+                  },
+                ),
+        
+                SizedBox(height: 24.h),
+                CustomButton(
+                  text: widget.currentStu == widget.kids
+                      ? 'Create Profile'
+                      : 'Save & Next',
+                  onPressed: () {
+                    if (_formKey.currentState!.validate() && _image != null) {
+        
+                      if (widget.currentStu < widget.kids) {
+                        int currentKidNo = widget.currentStu + 1;
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => OnboardingScreen2(
+                          kids: widget.kids,
+                          currentStu: currentKidNo,
+                        ),
+                          ),
+                        );
+                      } else {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (_) => ApprovalScreen()),
+                        );
+                      }
+                    }
+                    // else {
+                    //   if (_image == null) {
+                    //     ScaffoldMessenger.of(context).showSnackBar(
+                    //       SnackBar(content: Text('Please Upload Id card photo')),
+                    //     );
+                    //   }
+                    // }
+                  },
+                  bgColor: AppColor.black,
+                ),
+                SizedBox(height: 27.h),
+              ],
+            ),
           ),
         ),
       ),

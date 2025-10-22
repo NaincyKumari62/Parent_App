@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_lucide/flutter_lucide.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -70,27 +71,27 @@ class HelpScreen extends StatelessWidget {
 
             Row(
               children: [
-                Image.asset("assets/images/call.png", color: AppColor.black),
+                FaIcon(LucideIcons.phone,size: 18.sp,color: AppColor.fontGrey,),
                 SizedBox(width: 10.w),
-                Text("+91 9548268651", style: TextStyle(fontSize: 14.sp)),
+                Text("+91 9548268651", style: TextStyle(fontSize: 14.sp,color: AppColor.fontGrey)),
               ],
             ),
             SizedBox(height: 10.h),
 
             Row(
               children: [
-                FaIcon(FontAwesomeIcons.whatsapp, size: 20.sp),
+                FaIcon(FontAwesomeIcons.whatsapp, size: 20.sp,color: AppColor.fontGrey,),
                 SizedBox(width: 10.w),
-                Text("+91 9256386451", style: TextStyle(fontSize: 14.sp)),
+                Text("+91 9256386451", style: TextStyle(fontSize: 14.sp,color: AppColor.fontGrey,)),
               ],
             ),
             SizedBox(height: 10.h),
 
             Row(
               children: [
-                Icon(Icons.email_outlined, size: 20.sp),
+                Icon(Icons.email_outlined, size: 20.sp,color: AppColor.fontGrey,),
                 SizedBox(width: 10.w),
-                Text("info@grnlyft.com", style: TextStyle(fontSize: 14.sp)),
+                Text("info@grnlyft.com", style: TextStyle(fontSize: 14.sp,color: AppColor.fontGrey,)),
               ],
             ),
           ],
@@ -108,9 +109,9 @@ class HelpScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
-                child: Text(question, style: TextStyle(fontSize: 15.sp)),
+                child: Text(question, style: TextStyle(fontSize: 15.sp,color: AppColor.fontGrey,)),
               ),
-              Icon(Icons.add, color: Colors.grey, size: 20.sp),
+              Icon(Icons.add,  size: 20.sp,color: AppColor.fontGrey,),
             ],
           ),
           SizedBox(height: 10.h),

@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../res/Colors/color.dart';
 import '../../widgets/button/rounded_button.dart';
@@ -76,8 +77,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
                         CustomButton(
                           text: 'Continue',
-                          onPressed: () {
+                          onPressed: () async {
                             if (phoneController.text.trim().length == 10) {
+                              SharedPreferences prefs = await SharedPreferences.getInstance();
+                              await prefs.setString('phoneNumber', phoneController.text.trim());
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -94,12 +97,14 @@ class _LoginScreenState extends State<LoginScreen> {
                           const Spacer(),
                           Row(children: [
                             SmallText(text: "By signing up you agree to our"),
-                            MediumText(text: "terms and conditions",fontWeight: FontWeight.w500,
+                            SmallText(text: " terms and conditions.",decoration: TextDecoration.underline,textcolor: AppColor.blue,
+
+
                             )
                           ],),
                           SmallText(
                             text:
-                            '''Learn how to use your data in our Privacy Policy.''',
+                            '''   Learn how to use your data in our Privacy Policy.''',
                           ),
                           SizedBox(height: 20.h),
                         ],

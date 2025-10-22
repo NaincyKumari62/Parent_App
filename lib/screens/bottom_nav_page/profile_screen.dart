@@ -1,11 +1,9 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_lucide/flutter_lucide.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:parent_app/screens/bottom_nav_page/home_screen.dart';
-import 'package:parent_app/screens/dashboard/dashboard_screen.dart';
 import '../../res/Colors/color.dart';
 import '../../widgets/Tile/custom_tile.dart';
-import '../../widgets/text/big_text.dart';
 
 
 class ProfileScreen extends StatelessWidget {
@@ -16,15 +14,17 @@ class ProfileScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColor.white,
-        title: Text("Profile"),
-        leadingWidth: 35.w,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=>DashboardScreen()));
-          },
-        ),
-      ),
+        title: Text("Profile",style: TextStyle(fontSize: 24.sp,fontWeight: FontWeight.w500),),
+        leadingWidth: 40.w,
+        leading: Padding(
+          padding:  EdgeInsets.only(left: 10.w),
+          child: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        ),      ),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -32,67 +32,70 @@ class ProfileScreen extends StatelessWidget {
               context,
               tiles: [
                 CustomTile(
-                  imagePath: "assets/images/person_icon.png",
+                  icon: LucideIcons.user,
                   iconColor: AppColor.icon_person,
-                  title: "Personal Info",
+                  title: 'Personal Info',
                   onTap: () {
-
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=> ProfileScreen() ));
                   },
                 ),
+
                 CustomTile(
-                  imagePath: "assets/images/bank_icon.png",
-                  iconColor: Colors.blue,
+                  icon: LucideIcons.smile_plus,
+                  iconColor: AppColor.icon_smile,
                   title: "Add New Kid",
                   onTap: () {
 
                   },
                 ),
                 CustomTile(
-                  imagePath: "assets/images/earn_icon.png",
-                  iconColor: Colors.yellow.shade900,
+                  icon: LucideIcons.gift,
+                  iconColor: AppColor.icon_gift,
                   title: "Refer & Earn",
                   onTap: () {
 
                   },
                 ),
                 CustomTile(
-                  imagePath: "assets/images/salery.png",
-                  iconColor: Colors.purple.shade900,
-                  title: "Invoice History",
+                  icon: LucideIcons.receipt_text,
+                  iconColor: AppColor.icon_slip,
+                  title: "Voice History",
                   onTap: () {
+
                   },
                 ),
                 CustomTile(
-                  imagePath: "assets/images/attendance_icon.png",
-                  iconColor: Colors.red.shade900,
+                  icon: LucideIcons.receipt_text,
+                  iconColor: AppColor.icon_slip,
                   title: "Attendance Report",
                   onTap: () {
+
                   },
                 ),
+
               ],
             ),
-
 
             _buildSection(
               context,
               tiles: [
                 CustomTile(
-                  imagePath: "assets/images/terms_condition_icon.png",
-                  iconColor: Colors.green.shade700,
+                  icon: LucideIcons.file_text,
+                  iconColor:  AppColor.icon_terms,
                   title: "Terms & Conditions",
                   onTap: () {
                   },
                 ),
                 CustomTile(
-                  imagePath: "assets/images/legal_icon.png",
-                  iconColor: Colors.red.shade900,
+                  icon: LucideIcons.scale,
+                  iconColor: AppColor.icon_legal,
                   title: "Legal",
                   onTap: () {
                   },
                 ),
                 CustomTile(
-                  imagePath: "assets/images/privacy_icon.png",
-                  iconColor: Colors.grey.shade400,
+                  icon: LucideIcons.file_key,
+                  iconColor: AppColor.icon_privacy,
                   title: "Privacy Policy",
                   onTap: () {
                   },
@@ -103,8 +106,8 @@ class ProfileScreen extends StatelessWidget {
               context,
               tiles: [
                 CustomTile(
-                  imagePath: "assets/images/logout_icon.png",
-                  iconColor: Colors.red.shade900,
+                  icon: LucideIcons.log_out,
+                  iconColor: AppColor.icon_logout,
                   title: "Log Out",
                   onTap: () {
 
@@ -124,7 +127,7 @@ class ProfileScreen extends StatelessWidget {
       padding:  EdgeInsets.symmetric(vertical: 10.h),
       decoration: BoxDecoration(
         color: Colors.grey.shade200,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(16.r),
       ),
       child: Column(children: tiles),
     );

@@ -156,41 +156,43 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                         //   ),
                         // ),
                         Spacer(),
-                        Row(
-                          children: [
-                            Checkbox(
-                              value: isChecked,
-                              onChanged: (bool? value) {
-                                setState(() {
-                                  isChecked = value ?? false;
-                                });
-                              },
-                              checkColor: AppColor.black,
-                              fillColor:
-                                  MaterialStateProperty.resolveWith<Color>((
-                                    states,
-                                  ) {
-                                    if (states.contains(
-                                      MaterialState.selected,
-                                    )) {
-                                      return AppColor.grey_btn;
-                                    }
-                                    return AppColor.white;
-                                  }),
-                              side: const BorderSide(
-                                color: AppColor.grey_btn,
-                                width: 2,
+                        Center(
+                          child: Row(
+                            children: [
+                              Checkbox(
+                                value: isChecked,
+                                onChanged: (bool? value) {
+                                  setState(() {
+                                    isChecked = value ?? false;
+                                  });
+                                },
+                                checkColor: AppColor.black,
+                                fillColor:
+                                    MaterialStateProperty.resolveWith<Color>((
+                                      states,
+                                    ) {
+                                      if (states.contains(
+                                        MaterialState.selected,
+                                      )) {
+                                        return AppColor.grey_btn;
+                                      }
+                                      return AppColor.white;
+                                    }),
+                                side:  BorderSide(
+                                  color: AppColor.grey_btn,
+                                  width: 2.w,
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5.r),
+                                ),
                               ),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(6),
-                              ),
-                            ),
 
-                            Text(
-                              "I prefer email as my primary form of feedback and contact",
-                              style: TextStyle(fontSize: 10),
-                            ),
-                          ],
+                              Text(
+                                "I prefer email as my primary form of feedback and contact.",
+                                style: TextStyle(fontSize: 10.sp),
+                              ),
+                            ],
+                          ),
                         ),
                         CustomButton(
                           text: 'Continue',

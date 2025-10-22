@@ -194,7 +194,7 @@ SizedBox(height: 15.h,),
                   ],
                 ),
               ),
-              SizedBox(height: 45.h,)
+              SizedBox(height: 20.h,)
             ],
           ),
         ),

@@ -4,12 +4,14 @@ class SmallText extends StatelessWidget {
   final String text;
   final double? fontsize;
   final TextDecoration? decoration;
+  final Color? textcolor;
 
   const SmallText({
     super.key,
     required this.text,
     this.fontsize=13,
     this.decoration=TextDecoration.none,
+    this.textcolor,
   });
 
   @override
@@ -18,7 +20,9 @@ class SmallText extends StatelessWidget {
       textAlign: TextAlign.center,
       style: TextStyle(
      fontSize: fontsize,
-        decoration: decoration
-    ),);
+        decoration: decoration,
+          color: textcolor
+      ),
+    );
   }
 }

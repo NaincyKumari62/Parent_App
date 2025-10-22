@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_lucide/flutter_lucide.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../res/Colors/color.dart';
 
 class CustomTile extends StatelessWidget {
-  final String imagePath;
+  final IconData? icon;
+
   final Color iconColor;
   final String title;
   final VoidCallback onTap;
 
   const CustomTile({
     super.key,
-    required this.imagePath,
     required this.iconColor,
     required this.title,
-    required this.onTap,
+    required this.onTap, this.icon,
   });
 
   @override
@@ -23,27 +24,36 @@ class CustomTile extends StatelessWidget {
       onTap: onTap,
       borderRadius: BorderRadius.circular(16),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+        padding:  EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
         child: Row(
           children: [
             CircleAvatar(
               backgroundColor: Colors.white,
-                radius: 20,
-                child: Image.asset(imagePath,width: 16,height: 18,fit: BoxFit.contain,),
+
+              radius: 20.r,
+              child: Icon(
+                icon,
+                color: iconColor,
+                size: 20.sp,
+              ),
+              // child: Image.asset(imagePath,width: 16,height: 18,fit: BoxFit.contain,),
             ),
-           SizedBox(width: 16.w),
+            SizedBox(width: 16.w),
             Expanded(
               child: Text(
                 title,
-                style: const TextStyle(
-                  fontSize: 16,
+                style:  TextStyle(
+                  fontSize: 16.sp,
                   fontWeight: FontWeight.w500,
                 ),
               ),
             ),
 
-            const Icon(Icons.arrow_forward_ios,
-                size: 16, color: AppColor.grey_arrow),
+            Padding(
+              padding:  EdgeInsets.only(right: 20.0),
+              child: Icon(LucideIcons.chevron_right,
+                  size: 16.sp, color: AppColor.grey_arrow),
+            ),
           ],
         ),
       ),

@@ -28,7 +28,6 @@ class DropedCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               BigText(text: 'Arnavi Mahanti'),
-              Image.asset('assets/images/circle.png')
             ],
           ),
           SizedBox(height: 10.h,),
